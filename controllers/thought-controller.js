@@ -45,22 +45,14 @@ const thoughtController = {
   // PUT /api/thoughts/:id
   updateThought({ params, body }, res) {
     Thought.findOneAndUpdate({ _id: params.id }, body, { new: true })
-      .then(({ _id }) => {
-        return User.findOneAndUpdate(
-          { _id: body.userId },
-          { $push: { thoughts: _id } },
-          { new: true }
-        );
-      })
-      .then(dbUserData => {
-        console.log(dbUserData);
-        if (!dbUserData) {
-          res.status(404).json({ message: 'No user found with this id!' });
+      .then(dbThoughtData => {
+        if (!dbThoughtData) {
+          res.status(404).json({ message: 'No thought found with this id!' });
           return;
         }
-        res.json(dbUserData);
+        res.json(dbThoughtData);
       })
-      .catch(err => res.json(err));
+      .catch(err => res.status(400).json(err));
   },
 
   // DELETE /api/thoughts/:id
