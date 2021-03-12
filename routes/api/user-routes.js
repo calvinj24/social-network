@@ -18,6 +18,6 @@ router
   .route('/:id')
   .get(getUserById)
   .put(updateUser)
-  .delete(deleteUser)
+  .delete(deleteUser);
 
-module.exports = router
+module.exports = router;

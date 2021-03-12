@@ -1,5 +1,4 @@
 const { Thought, User } = require('../models');
-const { RSA_NO_PADDING } = require('constants');
 
 const thoughtController = {
   // GET /api/thoughts
@@ -27,7 +26,7 @@ const thoughtController = {
     Thought.create(body)
       .then(({ _id }) => {
         return User.findOneAndUpdate(
-          { _id: params.userId },
+          { _id: body.userId },
           { $push: { thoughts: _id } },
           { new: true }
         );
@@ -48,7 +47,7 @@ const thoughtController = {
     Thought.findOneAndUpdate({ _id: params.id }, body, { new: true })
       .then(({ _id }) => {
         return User.findOneAndUpdate(
-          { _id: params.userId },
+          { _id: body.userId },
           { $push: { thoughts: _id } },
           { new: true }
         );
