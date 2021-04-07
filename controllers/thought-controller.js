@@ -83,13 +83,13 @@ const thoughtController = {
         res.json(dbThoughtData);
       })
       .catch(err => res.status(400).json(err));
-  },
+},
 
   // DELETE /api/thoughts/:thoughtId/reactions/:reactionId
   removeReaction({ params }, res) {
     Thought.findOneAndUpdate(
       { _id: params.thoughtId },
-      { $pull: { reactions: params.reactionId } },
+      { $pull: { reactions: { _id: params.reactionId } } },
       { new: true }
     )
       .then(dbThoughtData => {
